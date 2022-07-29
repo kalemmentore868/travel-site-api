@@ -15,7 +15,7 @@ class Property {
     return results.rows;
   }
 
-  static async getUser(id) {
+  static async getProperty(id) {
     //ALWAYS RETURN 0 or 1
     //db.query() - ASYNC OPERATIONS!!! THAT IT WILL ALWAYS  PROMISE!!!!!!!!
     const results = await db.query(
@@ -24,7 +24,7 @@ class Property {
     return results.rows[0];
   }
 
-  static async deleteUser(id) {
+  static async deleteProperty(id) {
     await db.query(`DELETE FROM property WHERE id = ${id}`);
   }
 

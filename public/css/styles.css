@@ -1,3 +1,33 @@
 /* * {
   outline: 1px solid red;
 } */
+
+.caro-img {
+  height: 60vh;
+  object-fit: cover;
+}
+
+.card-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-box-img {
+  height: 30%;
+  object-fit: cover;
+}
+
+.locations {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+  row-gap: 20px;
+}
+
+.card-body-custom {
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
