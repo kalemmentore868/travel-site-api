@@ -1,5 +1,7 @@
 const express = require("express");
 const User = require("../models/UserModels.js");
+const Property = require("../models/PropertyModel.js");
+const userRegMidware = require("../middleware/userRegMidware.js");
 const router = express.Router();
 
 router.get("/signup", (req, res) => {
@@ -20,7 +22,7 @@ router.get("/showusers", async (req, res) => {
   res.send(html);
 });
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", userRegMidware, async (req, res) => {
   /*
         1. Get the information from the body of the request and store in an object
         2. Call the userModel to create the user
@@ -34,6 +36,11 @@ router.post("/signup", async (req, res) => {
 
     res.redirect("/users/showusers"); // SENDS A GET REQUEST TO /USERS
   }
+});
+
+router.get("/admin", async (req, res) => {
+  const properties = await Property.getAllProperties();
+  res.render("admin", { properties });
 });
 
 module.exports = router;

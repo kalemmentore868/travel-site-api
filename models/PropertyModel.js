@@ -3,7 +3,7 @@ const db = require("../config/db.js");
 class Property {
   static async createProperties(property) {
     await db.query(
-      `INSERT INTO property (title, location, star_rating, type, price, details, image_url) VALUES('${property.title}','${property.location}','${property.starRating}', '${property.type}','${property.price}', '${property.details}', '${property.imgUrl}' )`
+      `INSERT INTO property (title, location, star_rating, type, price, details, image_url) VALUES('${property.title}','${property.location}','${property.starRating}', '${property.type}','${property.price}', '${property.details}', '${property.imageUrl}' )`
     );
   }
   static async getAllProperties() {
@@ -28,14 +28,18 @@ class Property {
     await db.query(`DELETE FROM property WHERE id = ${id}`);
   }
 
-  //   static async updateUser(user_form_data, id) {
-  //     await db.query(
-  //       `UPDATE users SET first_name ='${user_form_data.firstName}',
-  //         last_name='${user_form_data.lastName}',
-  //         location='${user_form_data.location}'
-  //         WHERE id=${id};`
-  //     );
-  //   }
+  static async updateProperty(property, id) {
+    await db.query(
+      `UPDATE property SET title ='${property.title}',
+          location='${property.location}',
+          star_rating='${property.starRating}',
+          type='${property.type}',
+          price='${property.price}',
+          details='${property.details}',
+          image_url='${property.imageUrl}'
+          WHERE id=${id};`
+    );
+  }
 }
 
 module.exports = Property;

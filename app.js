@@ -37,14 +37,13 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   res.locals.user = req.session.user; // this is avaiable to every handlebars page
-  console.log(res.locals.user);
   next();
 });
 
 app.use("/", generalController);
 app.use("/users", userController);
 app.use("/properties", propertyController);
-app.use("/login", authController);
+app.use("/", authController);
 
 const PORT = process.env.PORT || 4000;
 

@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 const authModel = require("../models/authModel.js");
 
-router.get("/", (req, res) => {
+router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.post("/", async (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body; // grabbing the data that was entered in the form
 
   // user object or null
