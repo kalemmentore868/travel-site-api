@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Property = require("../models/PropertyModel.js");
+const propertyFormValidation = require("../middleware/propertyRegMidware.js");
+const ensureAdminUser = require("../middleware/ensureAdminUser.js");
 
 router.get("/", async (req, res) => {
   const properties = await Property.getAllProperties();
@@ -8,11 +10,11 @@ router.get("/", async (req, res) => {
   res.render("propertyListingPage", { properties });
 });
 
-router.get("/new", (req, res) => {
+router.get("/new", ensureAdminUser, (req, res) => {
   res.render("newProperty");
 });
 
-router.get("/edit/:id", async (req, res) => {
+router.get("/edit/:id", ensureAdminUser, async (req, res) => {
   const { id } = req.params;
   const property = await Property.getProperty(id);
 
@@ -26,7 +28,7 @@ router.get("/:id", async (req, res) => {
   res.render("propertyDetailsPage", { property });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", propertyFormValidation, ensureAdminUser, async (req, res) => {
   const property_data = req.body;
 
   await Property.createProperties(property_data);
@@ -34,16 +36,21 @@ router.post("/", async (req, res) => {
   res.redirect("/users/admin");
 });
 
-router.post("/edit/:id", async (req, res) => {
-  const { id } = req.params;
-  const property_data = req.body;
+router.post(
+  "/edit/:id",
+  propertyFormValidation,
+  ensureAdminUser,
+  async (req, res) => {
+    const { id } = req.params;
+    const property_data = req.body;
 
-  await Property.updateProperty(property_data, id);
+    await Property.updateProperty(property_data, id);
 
-  res.redirect("/users/admin");
-});
+    res.redirect("/users/admin");
+  }
+);
 
-router.post("/delete/:id", async (req, res) => {
+router.post("/delete/:id", ensureAdminUser, async (req, res) => {
   const { id } = req.params;
 
   await Property.deleteProperty(id);

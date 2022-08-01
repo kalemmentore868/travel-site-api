@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/UserModels.js");
 const Property = require("../models/PropertyModel.js");
 const userRegMidware = require("../middleware/userRegMidware.js");
+const ensureAdminUser = require("../middleware/ensureAdminUser.js");
 const router = express.Router();
 
 router.get("/signup", (req, res) => {
@@ -30,15 +31,17 @@ router.post("/signup", userRegMidware, async (req, res) => {
     */
   const user_data = req.body; // pluck out the data that was submitted via the form, from the body of the request
 
-  if (user_data.password === user_data.repeatPassword) {
-    delete user_data.repeatPassword;
-    await User.createUsers(user_data);
+  await User.createUsers(user_data);
+  req.session.user = user_data;
 
-    res.redirect("/users/showusers"); // SENDS A GET REQUEST TO /USERS
+  if (user_data.type === "User") {
+    res.redirect("/users/profile");
+  } else {
+    res.redirect("/users/admin");
   }
 });
 
-router.get("/admin", async (req, res) => {
+router.get("/admin", ensureAdminUser, async (req, res) => {
   const properties = await Property.getAllProperties();
   res.render("admin", { properties });
 });
