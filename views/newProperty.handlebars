@@ -1,156 +1,155 @@
-<h1 class="text-center">New Listing</h1>
-<div class="row">
+<div class="container">
+  <h1 class="text-center">New Listing</h1>
+  <div class="row">
 
-  <div class="col-6 offset-3">
-    <form
-      action="/properties"
-      class="needs-validation"
-      method="POST"
-      novalidate
-    >
-      <div class="mb-3">
-        <label class="form-label" for="title">Title</label>
-        <input
-          type="text"
-          class="form-control"
-          id="title"
-          name="title"
-          value="{{current_form_data.title}}"
-          required
-        />
-        <div class="invalid-feedback">
-          {{#if errors.title}} {{errors.title}} {{else}}
-            Title is Required
-          {{/if}}
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="price">Price</label>
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="price-label">$</span>
+    <div class="col-6 offset-3">
+      <form
+        action="/properties"
+        class="needs-validation"
+        method="POST"
+        enctype="multipart/form-data"
+        novalidate
+      >
+        <div class="mb-3">
+          <label class="form-label" for="title">Title</label>
           <input
             type="text"
             class="form-control"
-            name="price"
-            id="price"
-            placeholder="0.00"
-            aria-label="price"
-            aria-describedby="price-label"
-            value="{{current_form_data.price}}"
+            id="title"
+            name="title"
+            value="{{current_form_data.title}}"
             required
           />
-        </div>
-        <div class="invalid-feedback is-invalid">
-          {{#if errors.price}} {{errors.price}} {{else}}
-            Price is Required
-          {{/if}}
-        </div>
-
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="imageUrl">Image Url</label>
-        <input
-          type="text"
-          class="form-control"
-          id="imageUrl"
-          name="imageUrl"
-          value="{{current_form_data.imageUrl}}"
-          required
-        />
-        <div class="invalid-feedback">
-          {{#if errors.imageUrl}} {{errors.imageUrl}} {{else}}
-            Image Url is Required
-          {{/if}}
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="location">Location</label>
-        <input
-          type="text"
-          class="form-control"
-          id="location"
-          name="location"
-          value="{{current_form_data.location}}"
-          required
-        />
-        <div class="invalid-feedback">
-          {{#if errors.location}} {{errors.location}} {{else}}
-            Location is Required
-          {{/if}}
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="starRating">Star Rating</label>
-        <input
-          type="text"
-          class="form-control"
-          id="starRating"
-          name="starRating"
-          value="{{current_form_data.starRating}}"
-          required
-        />
-        <div class="invalid-feedback is-invalid">
-          {{#if errors.starRating}} {{errors.starRating}} {{else}}
-            Star Rating is Required
-          {{/if}}
+          <div class="invalid-feedback">
+            {{#if errors.title}} {{errors.title}} {{else}}
+              Title is Required
+            {{/if}}
+          </div>
         </div>
 
-      </div>
+        <div class="mb-3">
+          <label class="form-label" for="price">Price</label>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="price-label">$</span>
+            <input
+              type="text"
+              class="form-control"
+              name="price"
+              id="price"
+              placeholder="0.00"
+              aria-label="price"
+              aria-describedby="price-label"
+              value="{{current_form_data.price}}"
+              required
+            />
+          </div>
+          <div class="invalid-feedback is-invalid">
+            {{#if errors.price}} {{errors.price}} {{else}}
+              Price is Required
+            {{/if}}
+          </div>
 
-      <!-- <div class="mb-3">
-                    <label class="form-label" for="image">Image Url</label>
-                    <input type="text" class="form-control" id="image" name="product[image]" required>
-                    <div class="valid-feedback">
-                        Yuh orn like boil corn!
-                      </div>
-                </div> -->
+        </div>
 
-      {{! <div class="mb-3">
-        <label for="formFileMultiple" name="image" class="form-label">Add Images</label>
-        <input
-          class="form-control"
-          name="image"
-          type="file"
-          id="formFileMultiple"
-          multiple
-        />
-      </div> }}
-      <div class="mb-3">
-        <label class="form-label" for="type">Property Type</label>
-        <input
-          type="text"
-          class="form-control"
-          id="type"
-          name="type"
-          placeholder="hotel, villa, resort etc..."
-          value="{{current_form_data.type}}"
-          required
-        />
+        {{!-- <div class="mb-3">
+          <label class="form-label" for="imageUrl">Image Url</label>
+          <input
+            type="text"
+            class="form-control"
+            id="imageUrl"
+            name="imageUrl"
+            value="{{current_form_data.imageUrl}}"
+            required
+          />
+          <div class="invalid-feedback">
+            {{#if errors.imageUrl}} {{errors.imageUrl}} {{else}}
+              Image Url is Required
+            {{/if}}
+          </div>
+        </div> --}}
+        <div class="custom-file mb-3">
+          <input
+            type="file"
+            class="custom-file-input"
+            id="customFile"
+            name="image"
+          />
+          <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
 
-      </div>
+        <div class="mb-3">
+          <label class="form-label" for="location">Location</label>
+          <input
+            type="text"
+            class="form-control"
+            id="location"
+            name="location"
+            value="{{current_form_data.location}}"
+            required
+          />
+          <div class="invalid-feedback">
+            {{#if errors.location}} {{errors.location}} {{else}}
+              Location is Required
+            {{/if}}
+          </div>
+        </div>
 
-      <div class="mb-3">
-        <label class="form-label" for="details">Description</label>
-        <textarea
-          type="text"
-          class="form-control"
-          id="details"
-          name="details"
-          required
-        >{{current_form_data.details}}</textarea>
+        <fieldset class="starability-basic">
+          <legend>Rating:</legend>
+          <input
+            type="radio"
+            id="no-rate"
+            class="input-no-rate"
+            name="starRating"
+            value="0"
+            checked
+            aria-label="No rating."
+          />
+          <input type="radio" id="first-rate1" name="starRating" value="1" />
+          <label for="first-rate1" title="Terrible">1 star</label>
+          <input type="radio" id="first-rate2" name="starRating" value="2" />
+          <label for="first-rate2" title="Not good">2 stars</label>
+          <input type="radio" id="first-rate3" name="starRating" value="3" />
+          <label for="first-rate3" title="Average">3 stars</label>
+          <input type="radio" id="first-rate4" name="starRating" value="4" />
+          <label for="first-rate4" title="Very good">4 stars</label>
+          <input type="radio" id="first-rate5" name="starRating" value="5" />
+          <label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>
 
-      </div>
+        <div class="mb-3">
+          <label class="form-label" for="type">Property Type</label>
+          <input
+            type="text"
+            class="form-control"
+            id="type"
+            name="type"
+            placeholder="hotel, villa, resort etc..."
+            value="{{current_form_data.type}}"
+            required
+          />
 
-      <div class="mb-3">
-        <button type="submit" class="btn btn-success">Add Listing</button>
-      </div>
+        </div>
 
-    </form>
-    <a href="/properties">All Products</a>
+        <div class="mb-3">
+          <label class="form-label" for="details">Description</label>
+          <textarea
+            type="text"
+            class="form-control"
+            id="details"
+            name="details"
+            required
+          >{{current_form_data.details}}</textarea>
 
+        </div>
+
+        <div class="mb-3">
+          <button type="submit" class="btn btn-success">Add Listing</button>
+        </div>
+
+      </form>
+      <a href="/properties">All Products</a>
+
+    </div>
   </div>
 </div>

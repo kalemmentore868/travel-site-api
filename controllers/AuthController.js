@@ -20,11 +20,14 @@ router.post("/login", async (req, res) => {
         */
     req.session.user = user;
     if (user.type === "User") {
+      req.flash("success", "Successfully logged in as User");
       res.redirect("/users/profile");
     } else {
+      req.flash("success", "Successfully logged in as Admin");
       res.redirect("users/admin");
     }
   } else {
+    req.flash("error", "Incorrect credentials");
     res.render("login");
   }
 });
@@ -32,7 +35,7 @@ router.post("/login", async (req, res) => {
 router.get("/logout", (req, res) => {
   //destorys the user session
   req.session.user = undefined;
-
+  req.flash("success", "Successfully logged out");
   res.redirect("/");
 });
 

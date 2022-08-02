@@ -1,6 +1,11 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const { create } = require("express-handlebars");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 const generalController = require("./controllers/GeneralController.js");
 const userController = require("./controllers/UserController.js");
@@ -17,6 +22,8 @@ app.use(
     cookie: { secure: false },
   })
 );
+
+app.use(flash());
 
 const hbs = create({
   // Specify helpers which are only registered on this instance.
@@ -37,6 +44,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   res.locals.user = req.session.user; // this is avaiable to every handlebars page
+  next();
+});
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
   next();
 });
 

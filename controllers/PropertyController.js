@@ -3,6 +3,9 @@ const router = express.Router();
 const Property = require("../models/PropertyModel.js");
 const propertyFormValidation = require("../middleware/propertyRegMidware.js");
 const ensureAdminUser = require("../middleware/ensureAdminUser.js");
+const multer = require("multer");
+const { storage } = require("../cloudinary");
+const upload = multer({ storage });
 
 router.get("/", async (req, res) => {
   const properties = await Property.getAllProperties();
@@ -28,21 +31,30 @@ router.get("/:id", async (req, res) => {
   res.render("propertyDetailsPage", { property });
 });
 
-router.post("/", propertyFormValidation, ensureAdminUser, async (req, res) => {
-  const property_data = req.body;
+router.post(
+  "/",
+  upload.single("image"),
+  propertyFormValidation,
+  ensureAdminUser,
+  async (req, res) => {
+    const property_data = req.body;
+    property_data.imageUrl = req.file.path;
 
-  await Property.createProperties(property_data);
+    await Property.createProperties(property_data);
 
-  res.redirect("/users/admin");
-});
+    res.redirect("/users/admin");
+  }
+);
 
 router.post(
   "/edit/:id",
+  upload.single("image"),
   propertyFormValidation,
   ensureAdminUser,
   async (req, res) => {
     const { id } = req.params;
     const property_data = req.body;
+    property_data.imageUrl = req.file.path;
 
     await Property.updateProperty(property_data, id);
 

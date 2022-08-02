@@ -15,10 +15,6 @@ const propertyFormValidation = (req, res, next) => {
     errors.price = "Price must be a number";
   }
 
-  if (imageUrl === "") {
-    errors.imageUrl = "You must enter an image Url";
-  }
-
   if (location === "") {
     errors.location = "You must enter a location";
   }
@@ -36,7 +32,8 @@ const propertyFormValidation = (req, res, next) => {
   if (details === "") {
     errors.details = "You must enter a details";
   }
-  console.log(errors);
+
+  console.log(errors, req.body);
 
   //THE ARE ERRORS
   if (Object.keys(errors).length > 0) {

@@ -2,7 +2,7 @@
 <div class="row">
 
   <div class="col-6 offset-3">
-    <form action="/properties/edit/{{property.id}}" method="POST">
+    <form action="/properties/edit/{{property.id}}" method="POST" enctype="multipart/form-data">
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
         <input
@@ -33,15 +33,15 @@
 
       </div>
 
-      <div class="mb-3">
-        <label class="form-label" for="imageUrl">Image Url</label>
-        <input
-          type="text"
-          class="form-control"
-          id="imageUrl"
-          name="imageUrl"
-          value="{{property.image_url}}"
-        />
+      <div class="custom-file mb-3">
+          <input
+            type="file"
+            class="custom-file-input"
+            id="customFile"
+            name="image"
+          />
+          <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
 
       </div>
 
@@ -57,17 +57,28 @@
 
       </div>
 
-      <div class="mb-3">
-        <label class="form-label" for="starRating">Star Rating</label>
+      <fieldset class="starability-basic">
+        <legend>Rating:</legend>
         <input
-          type="text"
-          class="form-control"
-          id="starRating"
+          type="radio"
+          id="no-rate"
+          class="input-no-rate"
           name="starRating"
-          value="{{property.star_rating}}"
+          value="0"
+          checked
+          aria-label="No rating."
         />
-
-      </div>
+        <input type="radio" id="first-rate1" name="starRating" value="1" />
+        <label for="first-rate1" title="Terrible">1 star</label>
+        <input type="radio" id="first-rate2" name="starRating" value="2" />
+        <label for="first-rate2" title="Not good">2 stars</label>
+        <input type="radio" id="first-rate3" name="starRating" value="3" />
+        <label for="first-rate3" title="Average">3 stars</label>
+        <input type="radio" id="first-rate4" name="starRating" value="4" />
+        <label for="first-rate4" title="Very good">4 stars</label>
+        <input type="radio" id="first-rate5" name="starRating" value="5" />
+        <label for="first-rate5" title="Amazing">5 stars</label>
+      </fieldset>
 
       <!-- <div class="mb-3">
                     <label class="form-label" for="image">Image Url</label>
