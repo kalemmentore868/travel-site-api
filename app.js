@@ -11,6 +11,7 @@ const generalController = require("./controllers/GeneralController.js");
 const userController = require("./controllers/UserController.js");
 const propertyController = require("./controllers/PropertyController.js");
 const authController = require("./controllers/AuthController.js");
+const bookingController = require("./controllers/BookingController.js");
 
 const app = express();
 
@@ -57,6 +58,7 @@ app.use("/", generalController);
 app.use("/users", userController);
 app.use("/properties", propertyController);
 app.use("/", authController);
+app.use("/booking", bookingController);
 
 const PORT = process.env.PORT || 4000;
 
