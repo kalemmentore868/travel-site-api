@@ -2,9 +2,10 @@ const db = require("../config/db.js");
 
 class Property {
   static async createProperties(property) {
-    await db.query(
-      `INSERT INTO property (title, location, star_rating, type, price, details, image_url) VALUES('${property.title}','${property.location}','${property.starRating}', '${property.type}','${property.price}', '${property.details}', '${property.imageUrl}' )`
+    const results = await db.query(
+      `INSERT INTO property (title, location, star_rating, type, price, details, image_url) VALUES('${property.title}','${property.location}','${property.starRating}', '${property.type}','${property.price}', '${property.details}', '${property.imageUrl}') RETURNING *`
     );
+    return results.rows[0];
   }
   static async getAllProperties() {
     //ALWAYS RETURN 0 OR MANY!!
@@ -29,7 +30,7 @@ class Property {
   }
 
   static async updateProperty(property, id) {
-    await db.query(
+    const results = await db.query(
       `UPDATE property SET title ='${property.title}',
           location='${property.location}',
           star_rating='${property.starRating}',
@@ -37,8 +38,9 @@ class Property {
           price='${property.price}',
           details='${property.details}',
           image_url='${property.imageUrl}'
-          WHERE id=${id};`
+          WHERE id=${id} RETURNING *;`
     );
+    return results.rows[0];
   }
 }
 

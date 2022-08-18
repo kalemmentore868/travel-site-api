@@ -3,9 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const express = require("express");
-const { create } = require("express-handlebars");
 const session = require("express-session");
-const flash = require("connect-flash");
 
 const generalController = require("./controllers/GeneralController.js");
 const userController = require("./controllers/UserController.js");
@@ -24,41 +22,18 @@ app.use(
   })
 );
 
-app.use(flash());
-
-const hbs = create({
-  // Specify helpers which are only registered on this instance.
-  helpers: {
-    isFirst: function (id) {
-      if (id === 1) return "active";
-    },
-  },
-});
-
-app.engine("handlebars", hbs.engine);
-app.set("view engine", "handlebars");
-app.set("views", "./views");
-
-app.use(express.static("public"));
-
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use((req, res, next) => {
   res.locals.user = req.session.user; // this is avaiable to every handlebars page
   next();
 });
 
-app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  next();
-});
-
-app.use("/", generalController);
-app.use("/users", userController);
-app.use("/properties", propertyController);
-app.use("/", authController);
-app.use("/booking", bookingController);
+app.use("/api", generalController);
+app.use("/api/users", userController);
+app.use("/api/properties", propertyController);
+app.use("/api", authController);
+app.use("/api/booking", bookingController);
 
 const PORT = process.env.PORT || 4000;
 

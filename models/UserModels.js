@@ -5,9 +5,10 @@ class User {
   static async createUsers(user) {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(user.password, salt);
-    await db.query(
-      `INSERT INTO users (firstname,lastname,email,password,type) VALUES('${user.firstname}','${user.lastname}','${user.email}', '${hashPassword}','${user.type}')`
+    const results = await db.query(
+      `INSERT INTO users (firstname,lastname,email,password,type) VALUES('${user.firstname}','${user.lastname}','${user.email}', '${hashPassword}','${user.type}') RETURNING *`
     );
+    return results.rows[0];
   }
   static async getAllUsers() {
     //ALWAYS RETURN 0 OR MANY!!

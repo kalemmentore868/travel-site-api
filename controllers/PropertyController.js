@@ -10,64 +10,107 @@ const upload = multer({ storage });
 router.get("/", async (req, res) => {
   const properties = await Property.getAllProperties();
 
-  res.render("propertyListingPage", { properties });
+  res.json({
+    message: "A list of all the properties",
+    data: properties,
+  });
 });
 
-router.get("/new", ensureAdminUser, (req, res) => {
-  res.render("newProperty");
-});
+// router.get("/new", ensureAdminUser, (req, res) => {
+//   res.render("newProperty");
+// });
 
-router.get("/edit/:id", ensureAdminUser, async (req, res) => {
-  const { id } = req.params;
-  const property = await Property.getProperty(id);
+router.get(
+  "/edit/:id",
+  //ensureAdminUser,
+  async (req, res) => {
+    const { id } = req.params;
+    const property = await Property.getProperty(id);
 
-  res.render("editProperty", { property });
-});
+    if (!property) {
+      res.status(404).json({
+        message: `Property with id :${id} cannot be found`,
+      });
+    } else {
+      res.json({
+        message: "A property you want to edit",
+        data: property,
+      });
+    }
+  }
+);
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const property = await Property.getProperty(id);
 
-  res.render("propertyDetailsPage", { property });
+  if (!property) {
+    res.status(404).json({
+      message: `Property with id :${id} cannot be found`,
+    });
+  } else {
+    res.json({
+      message: "the selected property",
+      data: property,
+    });
+  }
 });
 
 router.post(
   "/",
-  upload.single("image"),
-  propertyFormValidation,
-  ensureAdminUser,
+  //upload.single("image"),
+  //propertyFormValidation,
+  //ensureAdminUser,
   async (req, res) => {
     const property_data = req.body;
-    property_data.imageUrl = req.file.path;
+    // property_data.imageUrl = req.file.path;
 
-    await Property.createProperties(property_data);
+    const property = await Property.createProperties(property_data);
+    res.status(201).json({
+      message: "A property was created!",
+      data: property,
+    });
 
-    res.redirect("/users/admin");
+    // res.redirect("/users/admin");
   }
 );
 
-router.post(
-  "/edit/:id",
-  upload.single("image"),
-  propertyFormValidation,
-  ensureAdminUser,
+router.put(
+  "/:id",
+  // upload.single("image"),
+  // propertyFormValidation,
+  //ensureAdminUser,
   async (req, res) => {
     const { id } = req.params;
     const property_data = req.body;
-    property_data.imageUrl = req.file.path;
 
-    await Property.updateProperty(property_data, id);
-
-    res.redirect("/users/admin");
+    const property = await Property.updateProperty(property_data, id);
+    res.json({
+      message: `Property with id : ${id} was updated`,
+      data: property,
+    });
   }
 );
 
-router.post("/delete/:id", ensureAdminUser, async (req, res) => {
-  const { id } = req.params;
+router.delete(
+  "/:id",
+  //ensureAdminUser,
+  async (req, res) => {
+    const { id } = req.params;
 
-  await Property.deleteProperty(id);
+    const property = await Property.getProperty(id);
 
-  res.redirect("/users/admin");
-});
+    if (!property) {
+      res.status(404).json({
+        message: `Property with id :${id} cannot be found`,
+      });
+    } else {
+      await Property.deleteProperty(id);
+      res.json({
+        message: `Property with id :${id} was deleted`,
+      });
+    }
+  }
+);
 
 module.exports = router;
